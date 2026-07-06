@@ -15,17 +15,21 @@ class SLL:
   def __len__(self):
     return self.size
   
+  def __iter__(self):
+    current = self.head
+    while current:
+      yield current.data 
+      current = current.next
+    
   def __str__(self):
-      if self.is_empty():
-          return "List is empty"
-      result = "= = = LIST ITEMS = = =\n"
-      current = self.head
-      while current:
-          result += f" {current.data} --> "
-          current = current.next
-      result += "None"
-      return result 
-      
+    if self.is_empty():
+      return "List is empty"
+    self.check_and_fix_cycle()
+    result = []
+    for node_data in self:
+      result.append(f"{node_data}")
+    return " --> ".join(result) + " --> None"
+  
   def is_empty(self):
     return self.head == None 
   
@@ -112,13 +116,13 @@ class SLL:
       node = Node(item, address.next)
       address.next = node
       self.size += 1
-      
+  
   def remove_at_start(self):
     if self.is_empty():
       return 
     self.head = self.head.next
     self.size -= 1
-  
+    
   def remove_at_last(self):
     if self.is_empty():
       return 
@@ -225,8 +229,82 @@ class SLL:
         self.size = 0
         current = self.head
         while current:
-            self.size += 1
-            current = current.next
+          self.size += 1
+          current = current.next
         return True
     return False
     
+  def reverse_list(self):
+    if self.is_empty():
+      return 
+    if not self.head.next:
+      return self.head
+    prev = None
+    current = self.head
+    next = None
+    while current:
+      next = current.next
+      current.next = prev
+      prev = current 
+      current = next
+    self.head = prev
+    return prev
+  
+# ==========================================
+# SIMPLE TEST SCRIPT 
+# ==========================================
+
+# 1. Create a brand new empty list
+my_list = SLL()
+print("--- Step 1: Created an empty list ---")
+print(f"Is the list empty? {my_list.is_empty()}")
+print(f"List size: {len(my_list)}")
+print()
+
+# 2. Add some numbers to the list
+print("--- Step 2: Adding items to the list ---")
+my_list.insert_at_start(10)  # List is now: 10
+my_list.insert_at_last(30)   # List is now: 10 -> 30
+my_list.insert_at_index(1, 20)  # Inserts 20 at index 1: 10 -> 20 -> 30
+
+# 3. Search for numbers in the list
+print("--- Step 3: Searching for items ---")
+index_of_20 = my_list.find_index(20)
+print(f"Where is number 20? Found at index: {index_of_20}")
+
+index_of_99 = my_list.find_index(99)
+print(f"Where is number 99? Found at index: {index_of_99} (-1 means it does not exist)")
+print()
+
+# 4. Find the middle element
+print("--- Step 4: Finding the middle node ---")
+middle_node = my_list.find_middle()
+if middle_node:
+    print(f"The middle element is: {middle_node.data}")
+print()
+
+# 5. Remove items from the list
+print("--- Step 5: Removing items ---")
+print("Removing the first item (10)...")
+my_list.remove_at_start()
+print(my_list)
+
+print("Removing the last item (30)...")
+print(my_list)
+print(f"Final list size: {len(my_list)}")
+print()
+
+# 6. Test reversing the list
+print("--- Step 6: Reversing a new list ---")
+my_list.clear()
+my_list.insert_at_last(1)
+my_list.insert_at_last(2)
+my_list.insert_at_last(3)
+print("Original list:")
+print(my_list)
+
+print("Reversing the list...")
+my_list.reverse_list()
+print(my_list)
+
+  

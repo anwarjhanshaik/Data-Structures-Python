@@ -74,7 +74,7 @@ class DLL:
     for i in range(index):
       current = current.next
     return current 
-  
+    
   def insert_at_index(self, index, item):
     if index == 0:
       self.insert_at_start(item)
@@ -108,6 +108,7 @@ class DLL:
     self.tail = node
     self.size += 1
 
+  #Use the search() method to provide the address
   def insert_after(self, address, item):
     if address:
       node = Node(item, address.next, address)
@@ -142,6 +143,7 @@ class DLL:
     self.size -= 1
     return del_node
 
+  #Use the search() method to provide the address
   def delete_after(self, address):
     if address and address.next:
       if address.next == self.tail:

@@ -13,14 +13,10 @@ class DLL:
   def __str__(self):
     if self.is_empty():
       return "List is empty"
-    current = self.head
-    result = "=== LIST ITEMS ===\n"
-    while current:
-      if not current.next:
-        result += f"{current.data} --> None"
-        return result 
-      result += f"{current.data} <--> "
-      current = current.next
+    result = []
+    for node in self:
+      result.append(str(node))
+    return f"=== LIST ITEMS ===\n{' <-> '.join(result)} -> None"
   
   def __iter__(self):
     return DllIterator(self.head)
@@ -125,22 +121,36 @@ class DLL:
   def delete_first(self):
     if self.is_empty():
       return 
+    del_node = self.head.data
     self.head = self.head.next
     if self.head:
       self.head.prev = None
     else:
       self.tail = None
     self.size -= 1
+    return del_node
   
   def delete_last(self):
     if self.is_empty():
       return 
+    del_node = self.tail.data
     self.tail = self.tail.prev
     if self.tail:
       self.tail.next = None
     else:
       self.head = None
     self.size -= 1
+    return del_node
+
+  def delete_after(self, address):
+    if address and address.next:
+      if address.next == self.tail:
+        return self.delete_at_last()
+      del_node = address.next.data
+      address.next.next.prev = address
+      address.next = address.next.next
+      self.size -= 1
+      return del_node
   
   def delete_item(self, item):
     if self.is_empty():

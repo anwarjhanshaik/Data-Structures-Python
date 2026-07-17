@@ -1,4 +1,4 @@
-from sll import*
+from sll_head import*
 class EmptyStackError(Exception):
     pass
 class FullStackError(Exception):

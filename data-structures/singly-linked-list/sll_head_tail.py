@@ -14,6 +14,10 @@ class SLL:
  
   def is_empty(self):
     return self.head == None
+
+  def clear(self):
+    self.head = self.tail = None
+    self.size = 0
     
   def __iter__(self):
     current = self.head

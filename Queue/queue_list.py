@@ -5,9 +5,9 @@ class QueueOverflowError(Exception):
   pass
 
 class Queue:
-  def __init__(self):
+  def __init__(self, capacity=None):
     self.__items = []
-    self.__capacity = None
+    self.__capacity = capacity
 
   def __str__(self):
     if self.is_empty():

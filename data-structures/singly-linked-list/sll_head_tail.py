@@ -69,14 +69,17 @@ class SLL:
   
   def delete_first(self):
     if not self.is_empty():
+      del_node = self.head.data
       if not self.head.next:
         self.head = self.tail = None
       else:
         self.head = self.head.next
       self.size -= 1
+      return del_node
   
   def delete_last(self):
     if not self.is_empty():
+      del_node = self.tail.data
       if not self.head.next:
         self.head = self.tail = None
       else:
@@ -86,6 +89,7 @@ class SLL:
         current.next = None
         self.tail = current 
       self.size -= 1
+      return del_node
   
   def delete_after(self, address):
     if address and address.next:
@@ -94,6 +98,7 @@ class SLL:
       if deleted_node == self.tail:
         self.tail = address
       self.size -= 1
+      return deleted_node.data
 
   def get_index(self, item):
     if not self.is_empty():
@@ -133,13 +138,15 @@ class SLL:
     if (self.is_empty() or (index < 0) or (index >= len(self))):
       raise IndexError("list index out of range")
     elif index == 0:
-      self.delete_first()
+      return self.delete_first()
     elif index == len(self)-1:
-      self.delete_last()
+      return self.delete_last()
     else:
       prev = self.get_item_at_index(index-1)
+      del_node = prev.next.data
       prev.next = prev.next.next
       self.size -= 1
+      return del_node
 
   def reverse_list(self):
     if not self.is_empty():

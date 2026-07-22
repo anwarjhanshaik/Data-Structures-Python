@@ -120,36 +120,45 @@ class SLL:
   def remove_at_start(self):
     if self.is_empty():
       return 
+    del_node = self.head.data
     self.head = self.head.next
     self.size -= 1
+    return del_node
     
   def remove_at_last(self):
     if self.is_empty():
       return 
+    del_node = None
     if not self.head.next:
+      del_node = self.head.data
       self.head = None
-      self.size -= 1
-      return 
-    current = self.head
-    while current.next.next:
-      current = current.next
-    current.next = None
+    else:
+      current = self.head
+      while current.next.next:
+        current = current.next
+      del_node = current.next.data
+      current.next = None
     self.size -= 1
+    return del_node
   
   def remove_item(self, item):
     if self.is_empty():
       return 
+    del_node = None
     if self.head.data == item:
+      del_node = self.head.data
       self.head = self.head.next
       self.size -= 1
-      return 
-    current = self.head
-    while current.next:
-      if current.next.data == item:
-        current.next = current.next.next
-        self.size -= 1
-        return 
-      current = current.next
+    else: 
+      current = self.head
+      while current.next:
+        if current.next.data == item:
+          del_node = current.next.data
+          current.next = current.next.next
+          self.size -= 1
+          break
+        current = current.next    
+    return del_node      #stop
   
   def clear(self):
     self.head = None
